@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Button from "react-bootstrap/Button";
 import CardsData from "./CardData";
@@ -6,13 +6,31 @@ import Card from "react-bootstrap/Card";
 import toast from "react-hot-toast";
 import {useDispatch} from "react-redux"
 import { addToCart } from "../Redux/features/cartSlice";
+import axios from "axios";
 
-const Home = () => {
-  const [cartData, setCartData] = useState(CardsData);
+const Home =  () => {
+  // const [cartData, setCartData] = useState(CardsData);
+  const [cartData, setCartData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://findfoodieserver.netlify.app/.netlify/functions/app");
+        const result = response.data;
+        setCartData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+ 
+  console.log("cartData",cartData);
+  
+
   const dispatch = useDispatch();
 
   const send = (e)=>{
-    console.log("eeeee",e);
     dispatch(addToCart(e))
     toast.success("Item Added In You Cart")
   }

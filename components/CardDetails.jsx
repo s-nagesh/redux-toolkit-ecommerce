@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 
 const CardDetails = () => {
   const { carts } = useSelector((state) => state.allCart);
+  console.log("cartscarts",carts);
+  
   const [totalprice, setPrice] = useState(0);
   const [totalquantity, setTotalQuantity] = useState(0);
 
